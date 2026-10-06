@@ -1,0 +1,8 @@
+export const CATALOG_PRODUCT_KIND = {
+  FOAM_CONFIGURATOR: "FOAM_CONFIGURATOR",
+  DIMENSIONS: "DIMENSIONS",
+  UNAVAILABLE: "UNAVAILABLE",
+} as const;
+
+export type TCatalogProductKind =
+  (typeof CATALOG_PRODUCT_KIND)[keyof typeof CATALOG_PRODUCT_KIND];

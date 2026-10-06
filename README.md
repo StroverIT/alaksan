@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Alaksan
 
-## Getting Started
+B2B-first сайт за дунапрен по размер - Next.js, Supabase (PostgreSQL + Prisma), NextAuth админ, GSAP анимации.
 
-First, run the development server:
+## Стартиране
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Копирай `.env.example` → `.env` и попълни `DATABASE_URL` (Supabase connection string) и admin credentials.
+2. `npm install`
+3. `npx prisma migrate deploy` (или `npm run db:migrate` локално)
+4. `npm run db:seed`
+5. `npm run dev`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Публичен сайт: [http://localhost:3000](http://localhost:3000)  
+Админ: [http://localhost:3000/admin/login](http://localhost:3000/admin/login) - `ADMIN_EMAIL` / `ADMIN_PASSWORD` от `.env`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Supabase
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **DATABASE_URL**: Transaction pooler (port 6543) за runtime
+- **DIRECT_URL** (optional): Direct connection за migrations - добави в `schema.prisma` при нужда
 
-## Learn More
+## Структура
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `/magazin` - каталог продукти
+- `/magazin/[slug]` - продуктова страница (Конфигуратор / размери / неналичен)
+- `/porachka-po-razmer` - конфигуратор (вид, L×W×T, количество)
+- `/kolichka` - заявка (фирма / физ. лице)
+- `/admin/dostavki` - поръчки
+- `/admin/analiz` - статистика по дунапрен и размери

@@ -1,0 +1,3 @@
+export const DEFAULT_REVEAL_Y = 48;
+export const DEFAULT_REVEAL_DURATION = 0.85;
+export const DEFAULT_REVEAL_STAGGER = 0.12;

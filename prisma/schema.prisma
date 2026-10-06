@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum CustomerType {
+  COMPANY
+  INDIVIDUAL
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  IN_PRODUCTION
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum LineItemKind {
+  CUSTOM_FOAM
+  CATALOG_PRODUCT
+}
+
+enum CatalogProductKind {
+  FOAM_CONFIGURATOR
+  DIMENSIONS
+  UNAVAILABLE
+}
+
+model FoamType {
+  id          String   @id @default(cuid())
+  name        String
+  code        String   @unique
+  density     String?
+  description String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  lineItems OrderLineItem[]
+}
+
+model CatalogProduct {
+  id          String             @id @default(cuid())
+  slug        String             @unique
+  name        String
+  description String?
+  imagePath   String?
+  kind        CatalogProductKind @default(UNAVAILABLE)
+  active      Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  lineItems OrderLineItem[]
+}
+
+model Order {
+  id           String       @id @default(cuid())
+  orderNumber  String       @unique @default(cuid())
+  customerType CustomerType
+  status       OrderStatus  @default(PENDING)
+
+  contactName  String
+  email        String?
+  phone        String
+  companyName  String?
+  companyId    String?
+  vatNumber    String?
+  address      String
+  city         String?
+  notes        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  lineItems OrderLineItem[]
+}
+
+model OrderLineItem {
+  id      String       @id @default(cuid())
+  kind    LineItemKind @default(CUSTOM_FOAM)
+  orderId String
+  order   Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  foamTypeId String?
+  foamType   FoamType? @relation(fields: [foamTypeId], references: [id])
+
+  catalogProductId String?
+  catalogProduct   CatalogProduct? @relation(fields: [catalogProductId], references: [id])
+
+  lengthCm    Float?
+  widthCm     Float?
+  thicknessCm Float?
+  quantity    Int    @default(1)
+  notes       String?
+
+  productName String?
+}
