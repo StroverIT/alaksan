@@ -14,6 +14,7 @@ export const COMPANY = {
 } as const;
 
 export const ABOUT_CONTENT = {
+  eyebrowLabel: "Компанията",
   titleLabel: "За нас",
   introLabel:
     "ALAKSAN е българска компания, специализирана в рязане на полиуретанов дунапрен по размер. Изработваме детайли за матраци, мебели, възглавници, шумоизолация, тапицерия, както и индивидуални проекти.",
@@ -32,7 +33,10 @@ export const ABOUT_CONTENT = {
 } as const;
 
 export const CONTACT_CONTENT = {
+  eyebrowLabel: "Alaksan",
   titleLabel: "Контакти",
+  introLabel:
+    "Обадете се или изпратете размерите. Отговаряме с цена и срок, преди да започнем изработката.",
   emailTitleLabel: "Имейл",
   emailDescriptionLabel:
     "Имате въпрос или желаете оферта? Изпратете ни имейл и ще ви отговорим най-бързо.",

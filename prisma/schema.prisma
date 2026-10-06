@@ -30,6 +30,8 @@ enum LineItemKind {
 enum CatalogProductKind {
   FOAM_CONFIGURATOR
   DIMENSIONS
+  PILLOW_CONFIGURATOR
+  INFO_PAGE
   UNAVAILABLE
 }
 
@@ -39,6 +41,8 @@ model FoamType {
   code        String   @unique
   density     String?
   description String?
+  pricePerM3  Float?
+  sortOrder   Int      @default(0)
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -53,11 +57,53 @@ model CatalogProduct {
   description String?
   imagePath   String?
   kind        CatalogProductKind @default(UNAVAILABLE)
+  pricePerM2  Float?
   active      Boolean            @default(true)
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
 
   lineItems OrderLineItem[]
+}
+
+model PillowType {
+  id        String   @id @default(cuid())
+  name      String
+  code      String   @unique
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  prices PillowPrice[]
+}
+
+model PillowSize {
+  id        String   @id @default(cuid())
+  label     String
+  code      String   @unique
+  widthCm   Float
+  lengthCm  Float
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  prices PillowPrice[]
+}
+
+model PillowPrice {
+  id           String  @id @default(cuid())
+  pillowTypeId String
+  pillowSizeId String
+  priceEur     Float?
+
+  pillowType PillowType @relation(fields: [pillowTypeId], references: [id], onDelete: Cascade)
+  pillowSize PillowSize @relation(fields: [pillowSizeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([pillowTypeId, pillowSizeId])
 }
 
 model Order {
@@ -99,6 +145,18 @@ model OrderLineItem {
   thicknessCm Float?
   quantity    Int    @default(1)
   notes       String?
+  unitPriceEur Float?
 
   productName String?
+}
+
+model ContactInquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  interest  String?
+  message   String
+  source    String?
+  createdAt DateTime @default(now())
 }

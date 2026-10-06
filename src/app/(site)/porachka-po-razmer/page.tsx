@@ -5,7 +5,7 @@ import type { FC } from "react";
 const ConfiguratorPage: FC = async () => {
   const foamTypes = await prisma.foamType.findMany({
     where: { active: true },
-    orderBy: { name: "asc" },
+    orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
   });
 
   return (

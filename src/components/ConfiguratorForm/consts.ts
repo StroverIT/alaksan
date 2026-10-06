@@ -1,13 +1,15 @@
 export const CONFIGURATOR_CONTENT = {
   titleLabel: "Конфигуратор - дунапрен по размер",
+  leadLabel:
+    "Изберете материал и въведете размерите в милиметри. Ще добавим детайла към заявката за оферта.",
   embeddedTitleLabel: "Калкулатор за дунапрен по размер",
   stepMaterialLabel: "Материал",
   stepDimensionsLabel: "Размери",
   stepQuantityLabel: "Количество",
   stepReviewLabel: "Преглед",
-  lengthLabel: "Дължина (см)",
-  widthLabel: "Ширина (см)",
-  thicknessLabel: "Дебелина (см)",
+  lengthLabel: "Дължина (мм)",
+  widthLabel: "Ширина (мм)",
+  thicknessLabel: "Дебелина (мм)",
   quantityLabel: "Брой",
   notesLabel: "Бележки (по избор)",
   addToCartLabel: "Добави към заявката",
@@ -15,5 +17,19 @@ export const CONFIGURATOR_CONTENT = {
   backLabel: "Назад",
   successToastLabel: "Добавено към количката",
   invalidDimensionsLabel: "Въведете валидни размери",
-  dimensionPlaceholderLabel: "",
+  dimensionPlaceholderLabel: "напр. 1900",
+  dimensionUnitLabel: "мм",
+  pricePerM3SuffixLabel: "€ / m³",
+  volumeLabel: "Обем",
+  volumeUnitLabel: "m³",
+  unitPriceLabel: "Цена за брой",
+  totalPriceLabel: "Общо",
+  missingPriceLabel: "За този материал все още няма тарифа.",
 };
+
+export const STEP_PROGRESS_CLASS = {
+  1: "w-1/4",
+  2: "w-1/2",
+  3: "w-3/4",
+  4: "w-full",
+} as const;

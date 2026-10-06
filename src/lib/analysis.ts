@@ -115,23 +115,23 @@ export const shiftMonth = (year: number, month: number, delta: number) => {
 export const formatMonthParam = (year: number, month: number) =>
   `${year}-${String(month).padStart(2, "0")}`;
 
-const bucketDimension = (value: number) => {
-  const step = 50;
-  const start = Math.floor(value / step) * step;
-  return `${start}–${start + step} см`;
+const bucketDimension = (valueMm: number) => {
+  const step = 500;
+  const start = Math.floor(valueMm / step) * step;
+  return `${start}–${start + step} мм`;
 };
 
-const bucketThickness = (value: number) => {
-  if (value <= 5) {
-    return "1–5 см";
+const bucketThickness = (valueMm: number) => {
+  if (valueMm <= 50) {
+    return "1–50 мм";
   }
-  if (value <= 10) {
-    return "6–10 см";
+  if (valueMm <= 100) {
+    return "51–100 мм";
   }
-  if (value <= 20) {
-    return "11–20 см";
+  if (valueMm <= 200) {
+    return "101–200 мм";
   }
-  return "21+ см";
+  return "201+ мм";
 };
 
 const mapToChart = (map: Map<string, number>) =>

@@ -11,6 +11,7 @@ const cartItemSchema = z.discriminatedUnion("kind", [
     widthCm: z.number().positive(),
     thicknessCm: z.number().positive(),
     quantity: z.number().int().positive(),
+    unitPriceEur: z.number().nonnegative().optional(),
     notes: z.string().optional(),
   }),
   z.object({
@@ -22,6 +23,7 @@ const cartItemSchema = z.discriminatedUnion("kind", [
     lengthCm: z.number().positive().optional(),
     widthCm: z.number().positive().optional(),
     thicknessCm: z.number().positive().optional(),
+    unitPriceEur: z.number().nonnegative().optional(),
     notes: z.string().optional(),
   }),
 ]);
@@ -51,3 +53,14 @@ export const orderSubmitSchema = z
   });
 
 export type TOrderSubmitInput = z.infer<typeof orderSubmitSchema>;
+
+export const contactInquirySchema = z.object({
+  name: z.string().min(2),
+  email: z.string().email(),
+  phone: z.string().min(6),
+  interest: z.string().optional(),
+  message: z.string().min(10),
+  source: z.string().optional(),
+});
+
+export type TContactInquiryInput = z.infer<typeof contactInquirySchema>;

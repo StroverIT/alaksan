@@ -11,6 +11,7 @@ export type TCartFoamItem = {
   widthCm: number;
   thicknessCm: number;
   quantity: number;
+  unitPriceEur?: number;
   notes?: string;
 };
 
@@ -23,6 +24,7 @@ export type TCartProductItem = {
   lengthCm?: number;
   widthCm?: number;
   thicknessCm?: number;
+  unitPriceEur?: number;
   notes?: string;
 };
 

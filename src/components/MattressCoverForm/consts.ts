@@ -7,6 +7,11 @@ export const CONTENT = {
   addToCartLabel: "Добави в количката",
   successToastLabel: "Добавено към количката",
   invalidDimensionsLabel: "Въведете валидни размери",
+  areaLabel: "Площ на плата",
+  areaUnitLabel: "m²",
+  unitPriceLabel: "Цена за 1 бр.",
+  totalPriceLabel: "Общо",
+  missingRateLabel: "Цената все още не е настроена. Свържете се с нас за оферта.",
 };
 
 export const DEFAULT_DIMENSIONS = {
@@ -14,4 +19,4 @@ export const DEFAULT_DIMENSIONS = {
   lengthCm: 200,
   heightCm: 20,
   quantity: 1,
-} as const;
+};

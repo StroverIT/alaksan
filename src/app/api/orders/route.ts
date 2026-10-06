@@ -39,6 +39,7 @@ export const POST = async (request: Request) => {
                 widthCm: item.widthCm,
                 thicknessCm: item.thicknessCm,
                 quantity: item.quantity,
+                unitPriceEur: item.unitPriceEur ?? null,
                 notes: item.notes || null,
                 productName: item.foamTypeName,
               };
@@ -51,6 +52,7 @@ export const POST = async (request: Request) => {
               lengthCm: item.lengthCm ?? null,
               widthCm: item.widthCm ?? null,
               thicknessCm: item.thicknessCm ?? null,
+              unitPriceEur: item.unitPriceEur ?? null,
               notes: item.notes || null,
               productName: item.productName,
             };

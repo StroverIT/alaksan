@@ -12,14 +12,14 @@ export const ShopProductCard: FC<TShopProductCardProps> = ({ product }) => {
   const isUnavailable = product.kind === CATALOG_PRODUCT_KIND.UNAVAILABLE;
 
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
       {product.imagePath ? (
-        <Link href={href} className="relative block aspect-16/10 shrink-0">
+        <Link href={href} className="relative block aspect-16/10 shrink-0 overflow-hidden">
           <Image
             src={product.imagePath}
             alt={product.name}
             fill
-            className="object-cover"
+            className="object-cover transition duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 33vw"
           />
         </Link>

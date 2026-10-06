@@ -1,6 +1,11 @@
 export const CHECKOUT_CONTENT = {
+  eyebrowLabel: "Заявка",
   titleLabel: "Заявка / количка",
-  emptyLabel: "Нямате артикули в количката.",
+  descriptionLabel:
+    "Без онлайн плащане. Изпращате заявката, а ние се свързваме за потвърждение и оферта.",
+  emptyLabel: "Количката е празна",
+  emptyDescriptionLabel: "Добавете размер от конфигуратора и ще подготвим оферта.",
+  emptyCtaLabel: "Поръчка по размер",
   customerTypeCompanyLabel: "Фирма",
   customerTypeIndividualLabel: "Физическо лице",
   submitLabel: "Изпрати заявката",

@@ -93,8 +93,8 @@ const DeliveryDetailPage: FC<TPageProps> = async ({ params }) => {
                     {item.foamType?.name ?? item.productName}
                   </p>
                   <p className="font-tabular mt-1 text-muted">
-                    Дължина {item.lengthCm} см · Ширина {item.widthCm} см · Дебелина{" "}
-                    {item.thicknessCm} см · Количество {item.quantity}
+                    Дължина {item.lengthCm} мм · Ширина {item.widthCm} мм · Дебелина{" "}
+                    {item.thicknessCm} мм · Количество {item.quantity}
                   </p>
                 </>
               ) : (
@@ -106,6 +106,9 @@ const DeliveryDetailPage: FC<TPageProps> = async ({ params }) => {
                     {item.lengthCm && item.widthCm && item.thicknessCm
                       ? `Дължина ${item.lengthCm} см · Ширина ${item.widthCm} см · Височина ${item.thicknessCm} см · Количество ${item.quantity}`
                       : `Количество ${item.quantity}`}
+                    {item.unitPriceEur != null
+                      ? ` · ${(item.unitPriceEur * item.quantity).toFixed(2)} €`
+                      : ""}
                   </p>
                 </>
               )}

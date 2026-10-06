@@ -2,8 +2,14 @@
 
 import Button from "@/components/Button";
 import { useCart } from "@/components/CartProvider";
+import {
+  coverAreaM2,
+  coverTotalPriceEur,
+  coverUnitPriceEur,
+  formatEur,
+} from "@/lib/coverPricing";
 import type { FC } from "react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { CONTENT, DEFAULT_DIMENSIONS } from "./consts";
 import type { TMattressCoverFormProps } from "./types";
@@ -16,12 +22,37 @@ const createId = () =>
 export const MattressCoverForm: FC<TMattressCoverFormProps> = ({
   catalogProductId,
   productName,
+  pricePerM2,
 }) => {
   const { addItem } = useCart();
   const [widthCm, setWidthCm] = useState(DEFAULT_DIMENSIONS.widthCm);
   const [lengthCm, setLengthCm] = useState(DEFAULT_DIMENSIONS.lengthCm);
   const [heightCm, setHeightCm] = useState(DEFAULT_DIMENSIONS.heightCm);
   const [quantity, setQuantity] = useState(DEFAULT_DIMENSIONS.quantity);
+
+  const pricing = useMemo(() => {
+    if (
+      pricePerM2 == null ||
+      widthCm <= 0 ||
+      lengthCm <= 0 ||
+      heightCm <= 0 ||
+      quantity < 1
+    ) {
+      return null;
+    }
+
+    return {
+      areaM2: coverAreaM2(lengthCm, widthCm, heightCm),
+      unitPriceEur: coverUnitPriceEur(lengthCm, widthCm, heightCm, pricePerM2),
+      totalPriceEur: coverTotalPriceEur(
+        lengthCm,
+        widthCm,
+        heightCm,
+        pricePerM2,
+        quantity,
+      ),
+    };
+  }, [heightCm, lengthCm, pricePerM2, quantity, widthCm]);
 
   const handleAdd = () => {
     if (widthCm <= 0 || lengthCm <= 0 || heightCm <= 0 || quantity < 1) {
@@ -38,6 +69,7 @@ export const MattressCoverForm: FC<TMattressCoverFormProps> = ({
       lengthCm,
       widthCm,
       thicknessCm: heightCm,
+      unitPriceEur: pricing?.unitPriceEur,
     });
     toast.success(CONTENT.successToastLabel);
   };
@@ -61,7 +93,7 @@ export const MattressCoverForm: FC<TMattressCoverFormProps> = ({
               step={0.1}
               value={value}
               onChange={(event) => setter(Number(event.target.value))}
-              className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2 font-tabular"
+              className="field font-tabular"
             />
           </label>
         ))}
@@ -73,9 +105,26 @@ export const MattressCoverForm: FC<TMattressCoverFormProps> = ({
           min={1}
           value={quantity}
           onChange={(event) => setQuantity(Number(event.target.value))}
-          className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2 font-tabular"
+          className="field font-tabular"
         />
       </label>
+
+      {pricing ? (
+        <div className="mt-6 rounded-xl border border-border bg-background p-4 text-sm">
+          <p className="font-tabular text-muted">
+            {CONTENT.areaLabel}: {pricing.areaM2.toFixed(2)} {CONTENT.areaUnitLabel}
+          </p>
+          <p className="font-tabular mt-1 text-muted">
+            {CONTENT.unitPriceLabel}: {formatEur(pricing.unitPriceEur)}
+          </p>
+          <p className="font-tabular mt-2 text-base font-semibold text-primary">
+            {CONTENT.totalPriceLabel}: {formatEur(pricing.totalPriceEur)}
+          </p>
+        </div>
+      ) : (
+        <p className="mt-6 text-sm text-muted">{CONTENT.missingRateLabel}</p>
+      )}
+
       <Button variant="accent" className="mt-6" onClick={handleAdd}>
         {CONTENT.addToCartLabel}
       </Button>

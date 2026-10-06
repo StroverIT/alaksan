@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "FoamType" ADD COLUMN     "pricePerM3" DOUBLE PRECISION,
+ADD COLUMN     "sortOrder" INTEGER NOT NULL DEFAULT 0;

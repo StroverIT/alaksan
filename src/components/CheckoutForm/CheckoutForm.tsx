@@ -1,9 +1,8 @@
 "use client";
 
-import Button from "@/components/Button";
+import Button, { ButtonLink } from "@/components/Button";
 import { useCart } from "@/components/CartProvider";
 import { CustomerType } from "@prisma/client";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import { useState } from "react";
@@ -27,9 +26,14 @@ export const CheckoutForm: FC = () => {
 
   if (items.length === 0) {
     return (
-      <div className="rounded-2xl border border-border bg-surface p-8 text-center">
-        <p className="text-muted">{CHECKOUT_CONTENT.emptyLabel}</p>
-        <ButtonLinkWrap />
+      <div className="rounded-2xl border border-dashed border-border bg-surface px-6 py-14 text-center">
+        <p className="text-lg font-semibold text-foreground">{CHECKOUT_CONTENT.emptyLabel}</p>
+        <p className="mx-auto mt-2 max-w-md text-sm text-muted">
+          {CHECKOUT_CONTENT.emptyDescriptionLabel}
+        </p>
+        <ButtonLink href="/porachka-po-razmer" variant="accent" className="mt-6">
+          {CHECKOUT_CONTENT.emptyCtaLabel}
+        </ButtonLink>
       </div>
     );
   }
@@ -85,7 +89,7 @@ export const CheckoutForm: FC = () => {
                 <>
                   <p className="font-medium">{item.foamTypeName}</p>
                   <p className="font-tabular mt-1 text-muted">
-                    {item.lengthCm}×{item.widthCm}×{item.thicknessCm} см · ×{item.quantity}
+                    {item.lengthCm}×{item.widthCm}×{item.thicknessCm} мм · ×{item.quantity}
                   </p>
                 </>
               ) : (
@@ -95,6 +99,9 @@ export const CheckoutForm: FC = () => {
                     {item.lengthCm && item.widthCm && item.thicknessCm
                       ? `${item.lengthCm}×${item.widthCm}×${item.thicknessCm} см · ×${item.quantity}`
                       : `×${item.quantity}`}
+                    {item.unitPriceEur != null
+                      ? ` · ${(item.unitPriceEur * item.quantity).toFixed(2)} €`
+                      : ""}
                   </p>
                 </>
               )}
@@ -138,18 +145,54 @@ export const CheckoutForm: FC = () => {
         </fieldset>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <Field label="Име за контакт" value={contactName} onChange={setContactName} required />
-          <Field label="Телефон" value={phone} onChange={setPhone} required />
-          <Field label="Имейл" value={email} onChange={setEmail} type="email" />
+          <Field
+            label="Име за контакт"
+            value={contactName}
+            onChange={setContactName}
+            autoComplete="name"
+            required
+          />
+          <Field
+            label="Телефон"
+            value={phone}
+            onChange={setPhone}
+            type="tel"
+            autoComplete="tel"
+            required
+          />
+          <Field
+            label="Имейл"
+            value={email}
+            onChange={setEmail}
+            type="email"
+            autoComplete="email"
+          />
           {customerType === CustomerType.COMPANY ? (
             <>
-              <Field label="Фирма" value={companyName} onChange={setCompanyName} required />
+              <Field
+                label="Фирма"
+                value={companyName}
+                onChange={setCompanyName}
+                autoComplete="organization"
+                required
+              />
               <Field label="ЕИК" value={companyId} onChange={setCompanyId} />
               <Field label="ДДС номер" value={vatNumber} onChange={setVatNumber} />
             </>
           ) : null}
-          <Field label="Адрес за доставка" value={address} onChange={setAddress} required />
-          <Field label="Град" value={city} onChange={setCity} />
+          <Field
+            label="Адрес за доставка"
+            value={address}
+            onChange={setAddress}
+            autoComplete="street-address"
+            required
+          />
+          <Field
+            label="Град"
+            value={city}
+            onChange={setCity}
+            autoComplete="address-level2"
+          />
         </div>
 
         <label className="mt-4 block text-sm">
@@ -158,7 +201,7 @@ export const CheckoutForm: FC = () => {
             value={notes}
             onChange={(event) => setNotes(event.target.value)}
             rows={3}
-            className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2"
+            className="field"
           />
         </label>
 
@@ -176,26 +219,26 @@ type TFieldProps = {
   onChange: (value: string) => void;
   required?: boolean;
   type?: string;
+  autoComplete?: string;
 };
 
-const Field: FC<TFieldProps> = ({ label, value, onChange, required, type = "text" }) => (
+const Field: FC<TFieldProps> = ({
+  label,
+  value,
+  onChange,
+  required,
+  type = "text",
+  autoComplete,
+}) => (
   <label className="block text-sm sm:col-span-1">
     <span className="font-medium">{label}</span>
     <input
       type={type}
       required={required}
+      autoComplete={autoComplete}
       value={value}
       onChange={(event) => onChange(event.target.value)}
-      className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2"
+      className="field"
     />
   </label>
-);
-
-const ButtonLinkWrap: FC = () => (
-  <Link
-    href="/porachka-po-razmer"
-    className="mt-4 inline-block text-sm font-medium text-accent underline"
-  >
-    Към Конфигураторa
-  </Link>
 );

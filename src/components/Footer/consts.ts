@@ -9,4 +9,6 @@ export const FOOTER_CONTENT = {
   emailLabel: COMPANY.emailLabel,
   addressLabel: COMPANY.addressFullLabel,
   companyLabel: COMPANY.legalNameLabel,
+  navigationLabel: "Навигация",
+  quoteCtaLabel: "Поискай оферта",
 };
