@@ -26,3 +26,4 @@ B2B-first сайт за дунапрен по размер - Next.js, Supabase (
 - `/kolichka` - заявка (фирма / физ. лице)
 - `/admin/dostavki` - поръчки
 - `/admin/analiz` - статистика по дунапрен и размери
+# alaksan
